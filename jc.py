@@ -378,14 +378,14 @@ def receitas():
 
         else:
 
-        df = pd.read_sql(
-            """
-            SELECT *
-            FROM receitas
-            ORDER BY data DESC
-            """,
-            conn
-        )
+            df = pd.read_sql(
+                """
+                SELECT *
+                FROM receitas
+                ORDER BY data DESC
+                """,
+                conn
+            )
 
         if not df.empty:
 
