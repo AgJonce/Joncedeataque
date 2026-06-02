@@ -402,7 +402,7 @@ def receitas():
                     df["selecao"]
                 )
 
-            dados = df[
+        dados = df[
                 df["selecao"] == receita_selecionada
             ].iloc[0]
 
