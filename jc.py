@@ -363,20 +363,20 @@ def receitas():
             "Pesquisar Descrição"
         )
 
-    if filtro:
+        if filtro:
 
-        df = pd.read_sql(
-            """
-            SELECT *
-            FROM receitas
-            WHERE descricao LIKE ?
-            ORDER BY data DESC
-            """,
-            conn,
-            params=(f"%{filtro}%",)
-        )
+            df = pd.read_sql(
+                """
+                SELECT *
+                FROM receitas
+                WHERE descricao LIKE ?
+                ORDER BY data DESC
+                """,
+                conn,
+                params=(f"%{filtro}%",)
+            )
 
-            else:
+        else:
 
                 df = pd.read_sql(
                     """
