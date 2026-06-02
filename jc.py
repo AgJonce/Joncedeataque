@@ -481,25 +481,25 @@ def receitas():
     # ALTERAR
     # ==========================
 
-    elif acao == "alterar":
+elif acao == "alterar":
 
-        st.subheader("✏️ Alterar Receita")
+     st.subheader("✏️ Alterar Receita")
 
-        st.info(
-            "Tela de alteração será criada após a localização."
-        )
+     st.info(
+         "Tela de alteração será criada após a localização."
+     )
 
     # ==========================
     # EXCLUIR
     # ==========================
 
-    elif acao == "excluir":
+ elif acao == "excluir":
 
-        st.subheader("🗑️ Excluir Receita")
+    st.subheader("🗑️ Excluir Receita")
 
-        st.info(
-            "Tela de exclusão será criada no próximo passo."
-        )
+     st.info(
+         "Tela de exclusão será criada no próximo passo."
+      )
 def login_usuario():
 
     st.title("🔐 Login do Sistema")
