@@ -423,45 +423,45 @@ def receitas():
 
         col1, col2 = st.columns(2)
 
-            with col1:
+        with col1:
 
-                st.text_input(
-                    "Descrição",
-                    value=dados["descricao"],
-                    disabled=True
-                )
+            st.text_input(
+                 "Descrição",
+                 value=dados["descricao"],
+                disabled=True
+             )
 
-                st.text_input(
-                    "Categoria",
-                    value=dados["categoria"],
-                    disabled=True
-                )
+              st.text_input(
+                "Categoria",
+                 value=dados["categoria"],
+                disabled=True
+             )
 
-                st.text_input(
-                    "Conta",
-                    value=str(dados["conta"]),
-                    disabled=True
-                )
+             st.text_input(
+                 "Conta",
+                 value=str(dados["conta"]),
+                 disabled=True
+            )
     
-            with col2:
+        with col2:
 
-                st.text_input(
-                    "Data",
-                    value=dados["data"],
-                    disabled=True
-                )
+            st.text_input(
+                 "Data",
+                value=dados["data"],
+                 disabled=True
+             )
     
-                st.text_input(
-                    "Forma Recebimento",
-                    value=str(dados["forma_recebimento"]),
-                    disabled=True
-                )
+             st.text_input(
+                "Forma Recebimento",
+                 value=str(dados["forma_recebimento"]),
+                 disabled=True
+            )
 
-                st.text_input(
-                    "Valor",
-                    value=f"R$ {dados['valor']:,.2f}",
-                    disabled=True
-                )
+             st.text_input(
+                 "Valor",
+                 value=f"R$ {dados['valor']:,.2f}",
+                disabled=True
+            )
 
             st.text_area(
                 "Observação",
