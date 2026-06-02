@@ -370,15 +370,15 @@ def login_usuario():
 
     st.title("🔐 Login do Sistema")
 
-    usuario = st.text_input("usuarios")
+    usuario = st.text_input("Usuário")
     senha = st.text_input("Senha", type="password")
 
     if st.button("Entrar"):
 
         cursor.execute("""
-            SELECT usuarios, senha, nivel
+            SELECT usuario, senha, nivel
             FROM usuarios
-            WHERE usuarios = ? AND senha = ?
+            WHERE usuario = ? AND senha = ?
         """, (usuario, senha))
 
         result = cursor.fetchone()
@@ -389,12 +389,17 @@ def login_usuario():
             st.session_state["usuario"] = result[0]
             st.session_state["nivel"] = result[2]
 
-            st.success(f"Bem-vindo {result[0]} ({result[2]})")
+            st.success(
+                f"Bem-vindo {result[0]} ({result[2]})"
+            )
+
             st.rerun()
 
         else:
 
-            st.error("Usuário ou senha inválidos")
+            st.error(
+                "Usuário ou senha inválidos"
+            )
 # ==========================
 # MENU PRINCIPAL
 # ==========================        
@@ -444,9 +449,7 @@ def main():
 
 if __name__ == "__main__":
 
-    # ==========================
-    # INICIALIZAÇÃO DE LOGIN
-    # ==========================
+    criar_tabelas()
 
     if "logado" not in st.session_state:
         st.session_state["logado"] = False
@@ -456,7 +459,6 @@ if __name__ == "__main__":
 
     if "nivel" not in st.session_state:
         st.session_state["nivel"] = None
-
     # ==========================
     # BLOQUEIO DE ACESSO
     # ==========================
