@@ -376,31 +376,31 @@ def receitas():
             params=(f"%{filtro}%",)
         )
 
-        else:
+            else:
 
-            df = pd.read_sql(
-                """
-                SELECT *
-                FROM receitas
-                ORDER BY data DESC
-                """,
-                conn
-            )
+                df = pd.read_sql(
+                    """
+                    SELECT *
+                    FROM receitas
+                    ORDER BY data DESC
+                    """,
+                    conn
+                )
 
-        if not df.empty:
+            if not df.empty:
 
-            df["selecao"] = (
-                df["descricao"]
-                + " | "
-                + df["data"]
-                + " | R$ "
-                + df["valor"].round(2).astype(str)
-            )
+                df["selecao"] = (
+                    df["descricao"]
+                    + " | "
+                    + df["data"]
+                    + " | R$ "
+                    + df["valor"].round(2).astype(str)
+                )
 
-            receita_selecionada = st.selectbox(
-                "Selecione uma Receita",
-                df["selecao"]
-            )
+                receita_selecionada = st.selectbox(
+                    "Selecione uma Receita",
+                    df["selecao"]
+                )
 
             dados = df[
                 df["selecao"] == receita_selecionada
