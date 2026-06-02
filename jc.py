@@ -158,7 +158,31 @@ def criar_tabelas():
 
     conn.commit()
 
+    cursor.execute("""
+    SELECT COUNT(*)
+    FROM usuarios
+    """)
 
+    if cursor.fetchone()[0] == 0:
+
+        cursor.execute("""
+        INSERT INTO usuarios
+        (
+            nome,
+            usuario,
+            senha,
+            nivel
+        )
+        VALUES
+        (
+            'Administrador',
+            'admin',
+            '123',
+            'admin'
+        )
+        """)
+
+    conn.commit()
 def receitas():
 
     st.title("💰 Gestão de Receitas")
