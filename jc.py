@@ -451,13 +451,13 @@ def receitas():
                  disabled=True
              )
     
-             st.text_input(
+            st.text_input(
                 "Forma Recebimento",
                  value=str(dados["forma_recebimento"]),
                  disabled=True
             )
 
-             st.text_input(
+            st.text_input(
                  "Valor",
                  value=f"R$ {dados['valor']:,.2f}",
                 disabled=True
