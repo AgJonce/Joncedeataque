@@ -431,13 +431,13 @@ def receitas():
                 disabled=True
              )
 
-              st.text_input(
+            st.text_input(
                 "Categoria",
                  value=dados["categoria"],
                 disabled=True
              )
 
-             st.text_input(
+            st.text_input(
                  "Conta",
                  value=str(dados["conta"]),
                  disabled=True
