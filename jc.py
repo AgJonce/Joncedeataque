@@ -366,3 +366,4 @@ def receitas():
         st.info(
             "Tela de exclusão será criada no próximo passo."
         )
+    main()
