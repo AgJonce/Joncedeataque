@@ -366,4 +366,6 @@ def receitas():
         st.info(
             "Tela de exclusão será criada no próximo passo."
         )
+if __name__ == "__main__":
+    
     main()
