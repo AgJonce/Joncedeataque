@@ -387,7 +387,7 @@ def receitas():
                     conn
                 )
 
-            if not df.empty:
+        if not df.empty:
 
                 df["selecao"] = (
                     df["descricao"]
