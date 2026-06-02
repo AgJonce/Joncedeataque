@@ -366,6 +366,104 @@ def receitas():
         st.info(
             "Tela de exclusão será criada no próximo passo."
         )
-if __name__ == "__main__":
+def main():
+
+    criar_tabelas()
+
+    st.title("💰 SISFIN IA")
+
+    menu = st.sidebar.radio(
+        "Menu",
+        [
+            "Dashboard",
+            "Receitas",
+            "Despesas",
+            "Metas",
+            "Assistente",
+            "Planejamento",
+            "Relatórios"
+        ]
+    )
+
+    if menu == "Dashboard":
+        dashboard()
+
+    elif menu == "Receitas":
+        receitas()
+
+    elif menu == "Despesas":
+        despesas()
+
+    elif menu == "Metas":
+        metas()
+
+    elif menu == "Assistente":
+        assistente()
+        
+    elif menu == "Planejamento":
+        planejamento_compras()
+        
+    elif menu == "Relatórios":
+        relatorios()
     
+# ==========================
+# EXECUÇÃO
+# ==========================
+
+if __name__ == "__main__":
+
+    # ==========================
+    # INICIALIZAÇÃO DE LOGIN
+    # ==========================
+
+    if "logado" not in st.session_state:
+        st.session_state["logado"] = False
+
+    if "usuario" not in st.session_state:
+        st.session_state["usuario"] = None
+
+    if "nivel" not in st.session_state:
+        st.session_state["nivel"] = None
+
+    # ==========================
+    # BLOQUEIO DE ACESSO
+    # ==========================
+
+    if not st.session_state["logado"]:
+        login_usuario()
+        st.stop()
+
+    # ==========================
+    # SIDEBAR (APÓS LOGIN)
+    # ==========================
+
+    st.sidebar.write(f"👤 {st.session_state.get('usuario')}")
+    st.sidebar.write(f"🔐 Nível: {st.session_state.get('nivel')}")
+
+    if st.sidebar.button("🚪 Sair"):
+
+        st.session_state["logado"] = False
+        st.session_state["usuario"] = None
+        st.session_state["nivel"] = None
+
+        st.rerun()
+
+    # ==========================
+    # CONTROLE DE PERMISSÕES
+    # ==========================
+
+    def checar_admin():
+        if st.session_state.get("nivel") != "admin":
+            st.warning("Acesso restrito (apenas admin)")
+            st.stop()
+
+    def checar_operador_admin():
+        if st.session_state.get("nivel") not in ["admin", "operador"]:
+            st.warning("Sem permissão")
+            st.stop()
+
+    # ==========================
+    # EXECUÇÃO DO SISTEMA
+    # ==========================
+
     main()
