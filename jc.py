@@ -355,60 +355,60 @@ def receitas():
 
             st.rerun()
 
-    elif acao == "localizar":
+elif acao == "localizar":
 
-        st.subheader("🔍 Localizar Receita")
+    st.subheader("🔍 Localizar Receita")
 
-        filtro = st.text_input(
-            "Pesquisar Descrição"
+    filtro = st.text_input(
+        "Pesquisar Descrição"
+    )
+
+    if filtro:
+
+        df = pd.read_sql(
+            """
+            SELECT *
+            FROM receitas
+            WHERE descricao LIKE ?
+            ORDER BY data DESC
+            """,
+            conn,
+            params=(f"%{filtro}%",)
         )
 
-        if filtro:
+    else:
 
-            df = pd.read_sql(
-                """
-                SELECT *
-                FROM receitas
-                WHERE descricao LIKE ?
-                ORDER BY data DESC
-                """,
-                conn,
-                params=(f"%{filtro}%",)
-            )
+        df = pd.read_sql(
+            """
+            SELECT *
+            FROM receitas
+            ORDER BY data DESC
+            """,
+            conn
+        )
 
-        else:
+    if not df.empty:
 
-                df = pd.read_sql(
-                    """
-                    SELECT *
-                    FROM receitas
-                    ORDER BY data DESC
-                    """,
-                    conn
-                )
+        df["selecao"] = (
+            df["descricao"]
+            + " | "
+            + df["data"]
+            + " | R$ "
+            + df["valor"].round(2).astype(str)
+        )
 
-        if not df.empty:
-
-                df["selecao"] = (
-                    df["descricao"]
-                    + " | "
-                    + df["data"]
-                    + " | R$ "
-                    + df["valor"].round(2).astype(str)
-                )
-
-                receita_selecionada = st.selectbox(
-                    "Selecione uma Receita",
-                    df["selecao"]
-                )
+        receita_selecionada = st.selectbox(
+            "Selecione uma Receita",
+            df["selecao"]
+        )
 
         dados = df[
-                df["selecao"] == receita_selecionada
-            ].iloc[0]
+            df["selecao"] == receita_selecionada
+        ].iloc[0]
 
         st.session_state["receita_id"] = int(
-                dados["id"]
-            )
+            dados["id"]
+        )
 
         st.session_state["descricao"] = dados["descricao"]
         st.session_state["categoria"] = dados["categoria"]
@@ -426,58 +426,58 @@ def receitas():
         with col1:
 
             st.text_input(
-                 "Descrição",
-                 value=dados["descricao"],
+                "Descrição",
+                value=dados["descricao"],
                 disabled=True
-             )
+            )
 
             st.text_input(
                 "Categoria",
-                 value=dados["categoria"],
+                value=dados["categoria"],
                 disabled=True
-             )
+            )
 
             st.text_input(
-                 "Conta",
-                 value=str(dados["conta"]),
-                 disabled=True
+                "Conta",
+                value=str(dados["conta"]),
+                disabled=True
             )
-    
+
         with col2:
 
             st.text_input(
-                 "Data",
-                value=dados["data"],
-                 disabled=True
-             )
-    
-            st.text_input(
-                "Forma Recebimento",
-                 value=str(dados["forma_recebimento"]),
-                 disabled=True
+                "Data",
+                value=str(dados["data"]),
+                disabled=True
             )
 
             st.text_input(
-                 "Valor",
-                 value=f"R$ {dados['valor']:,.2f}",
+                "Forma Recebimento",
+                value=str(dados["forma_recebimento"]),
                 disabled=True
             )
 
-            st.text_area(
-                "Observação",
-                value=str(dados["observacao"]),
+            st.text_input(
+                "Valor",
+                value=f"R$ {dados['valor']:,.2f}",
                 disabled=True
             )
 
-            st.success(
-                f"Receita ID {dados['id']} carregada para alteração ou exclusão."
-            )
+        st.text_area(
+            "Observação",
+            value=str(dados["observacao"]),
+            disabled=True
+        )
+
+        st.success(
+            f"Receita ID {dados['id']} carregada para alteração ou exclusão."
+        )
 
     else:
 
         st.warning(
-             "Nenhuma receita encontrada."
-            )
+            "Nenhuma receita encontrada."
+        )
     # ALTERAR
     # ==========================
 
