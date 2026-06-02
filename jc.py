@@ -357,11 +357,11 @@ def receitas():
 
     elif acao == "localizar":
 
-    st.subheader("🔍 Localizar Receita")
+        st.subheader("🔍 Localizar Receita")
 
-    filtro = st.text_input(
-        "Pesquisar Descrição"
-    )
+        filtro = st.text_input(
+            "Pesquisar Descrição"
+        )
 
     if filtro:
 
