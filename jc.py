@@ -357,24 +357,24 @@ def receitas():
 
     elif acao == "localizar":
 
-        st.subheader("🔍 Localizar Receita")
+    st.subheader("🔍 Localizar Receita")
 
-        filtro = st.text_input(
-            "Pesquisar por descrição"
+    filtro = st.text_input(
+        "Pesquisar Descrição"
+    )
+
+    if filtro:
+
+        df = pd.read_sql(
+            """
+            SELECT *
+            FROM receitas
+            WHERE descricao LIKE ?
+            ORDER BY data DESC
+            """,
+            conn,
+            params=(f"%{filtro}%",)
         )
-
-        if filtro:
-
-            df = pd.read_sql(
-                """
-                SELECT *
-                FROM receitas
-                WHERE descricao LIKE ?
-                ORDER BY data DESC
-                """,
-                conn,
-                params=(f"%{filtro}%",)
-            )
 
         else:
 
@@ -389,69 +389,95 @@ def receitas():
 
         if not df.empty:
 
-            st.dataframe(
-                df,
-                use_container_width=True,
-                hide_index=True
+            df["selecao"] = (
+                df["descricao"]
+                + " | "
+                + df["data"]
+                + " | R$ "
+                + df["valor"].round(2).astype(str)
             )
 
-            receita_id = st.selectbox(
-                "Selecione a Receita",
-                df["id"]
+            receita_selecionada = st.selectbox(
+                "Selecione uma Receita",
+                df["selecao"]
             )
 
             dados = df[
-                df["id"] == receita_id
+                df["selecao"] == receita_selecionada
             ].iloc[0]
+
+            st.session_state["receita_id"] = int(
+                dados["id"]
+            )
+
+            st.session_state["descricao"] = dados["descricao"]
+            st.session_state["categoria"] = dados["categoria"]
+            st.session_state["conta"] = dados["conta"]
+            st.session_state["forma_recebimento"] = dados["forma_recebimento"]
+            st.session_state["valor"] = float(dados["valor"])
+            st.session_state["observacao"] = dados["observacao"]
 
             st.divider()
 
-            st.subheader("📄 Dados da Receita")
+            st.subheader("📄 Receita Selecionada")
 
             col1, col2 = st.columns(2)
 
             with col1:
 
-                st.write(
-                    f"**Data:** {dados['data']}"
+                st.text_input(
+                    "Descrição",
+                    value=dados["descricao"],
+                    disabled=True
                 )
 
-                st.write(
-                    f"**Descrição:** {dados['descricao']}"
+                st.text_input(
+                    "Categoria",
+                    value=dados["categoria"],
+                    disabled=True
                 )
 
-                st.write(
-                    f"**Categoria:** {dados['categoria']}"
+                st.text_input(
+                    "Conta",
+                    value=str(dados["conta"]),
+                    disabled=True
                 )
-
+    
             with col2:
 
-                st.write(
-                    f"**Conta:** {dados['conta']}"
+                st.text_input(
+                    "Data",
+                    value=dados["data"],
+                    disabled=True
+                )
+    
+                st.text_input(
+                    "Forma Recebimento",
+                    value=str(dados["forma_recebimento"]),
+                    disabled=True
                 )
 
-                st.write(
-                    f"**Forma Recebimento:** {dados['forma_recebimento']}"
+                st.text_input(
+                    "Valor",
+                    value=f"R$ {dados['valor']:,.2f}",
+                    disabled=True
                 )
 
-                st.write(
-                    f"**Valor:** R$ {dados['valor']:,.2f}"
-                )
-
-            st.write(
-                f"**Observação:** {dados['observacao']}"
+            st.text_area(
+                "Observação",
+                value=str(dados["observacao"]),
+                disabled=True
             )
 
-        # Guarda para alteração ou exclusão
-            st.session_state["receita_id"] = int(
-                dados["id"]
+            st.success(
+                f"Receita ID {dados['id']} carregada para alteração ou exclusão."
             )
 
         else:
 
             st.warning(
                 "Nenhuma receita encontrada."
-        )
+            )
     # ALTERAR
     # ==========================
 
