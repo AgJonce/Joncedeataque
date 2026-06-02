@@ -366,6 +366,38 @@ def receitas():
         st.info(
             "Tela de exclusão será criada no próximo passo."
         )
+def login_usuario():
+
+    st.title("🔐 Login do Sistema")
+
+    usuario = st.text_input("Usuário")
+    senha = st.text_input("Senha", type="password")
+
+    if st.button("Entrar"):
+
+        cursor.execute("""
+            SELECT usuario, senha, nivel
+            FROM usuarios
+            WHERE usuario = ? AND senha = ?
+        """, (usuario, senha))
+
+        result = cursor.fetchone()
+
+        if result:
+
+            st.session_state["logado"] = True
+            st.session_state["usuario"] = result[0]
+            st.session_state["nivel"] = result[2]
+
+            st.success(f"Bem-vindo {result[0]} ({result[2]})")
+            st.rerun()
+
+        else:
+
+            st.error("Usuário ou senha inválidos")
+# ==========================
+# MENU PRINCIPAL
+# ==========================        
 def main():
 
     criar_tabelas()
