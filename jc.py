@@ -355,28 +355,28 @@ def receitas():
 
             st.rerun()
 
-elif acao == "localizar":
+    elif acao == "localizar":
 
-    st.subheader("🔍 Localizar Receita")
+        st.subheader("🔍 Localizar Receita")
 
-    filtro = st.text_input(
-        "Pesquisar por descrição"
-    )
-
-    if filtro:
-
-        df = pd.read_sql(
-            """
-            SELECT *
-            FROM receitas
-            WHERE descricao LIKE ?
-            ORDER BY data DESC
-            """,
-            conn,
-            params=(f"%{filtro}%",)
+        filtro = st.text_input(
+            "Pesquisar por descrição"
         )
 
-    else:
+        if filtro:
+
+            df = pd.read_sql(
+                """
+                SELECT *
+                FROM receitas
+                WHERE descricao LIKE ?
+                ORDER BY data DESC
+                """,
+                conn,
+                params=(f"%{filtro}%",)
+            )
+
+        else:
 
         df = pd.read_sql(
             """
@@ -387,70 +387,70 @@ elif acao == "localizar":
             conn
         )
 
-    if not df.empty:
+        if not df.empty:
 
-        st.dataframe(
-            df,
-            use_container_width=True,
-            hide_index=True
-        )
-
-        receita_id = st.selectbox(
-            "Selecione a Receita",
-            df["id"]
-        )
-
-        dados = df[
-            df["id"] == receita_id
-        ].iloc[0]
-
-        st.divider()
-
-        st.subheader("📄 Dados da Receita")
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-
-            st.write(
-                f"**Data:** {dados['data']}"
+            st.dataframe(
+                df,
+                use_container_width=True,
+                hide_index=True
             )
 
-            st.write(
-                f"**Descrição:** {dados['descricao']}"
+            receita_id = st.selectbox(
+                "Selecione a Receita",
+                df["id"]
             )
 
+            dados = df[
+                df["id"] == receita_id
+            ].iloc[0]
+
+            st.divider()
+
+            st.subheader("📄 Dados da Receita")
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+
+                st.write(
+                    f"**Data:** {dados['data']}"
+                )
+
+                st.write(
+                    f"**Descrição:** {dados['descricao']}"
+                )
+
+                st.write(
+                    f"**Categoria:** {dados['categoria']}"
+                )
+
+            with col2:
+
+                st.write(
+                    f"**Conta:** {dados['conta']}"
+                )
+
+                st.write(
+                    f"**Forma Recebimento:** {dados['forma_recebimento']}"
+                )
+
+                st.write(
+                    f"**Valor:** R$ {dados['valor']:,.2f}"
+                )
+
             st.write(
-                f"**Categoria:** {dados['categoria']}"
+                f"**Observação:** {dados['observacao']}"
             )
-
-        with col2:
-
-            st.write(
-                f"**Conta:** {dados['conta']}"
-            )
-
-            st.write(
-                f"**Forma Recebimento:** {dados['forma_recebimento']}"
-            )
-
-            st.write(
-                f"**Valor:** R$ {dados['valor']:,.2f}"
-            )
-
-        st.write(
-            f"**Observação:** {dados['observacao']}"
-        )
 
         # Guarda para alteração ou exclusão
-        st.session_state["receita_id"] = int(
-            dados["id"]
-        )
+            st.session_state["receita_id"] = int(
+                dados["id"]
+            )
 
-    else:
+        else:
 
-        st.warning(
-            "Nenhuma receita encontrada."
+            st.warning(
+                "Nenhuma receita encontrada."
         )
     # ALTERAR
     # ==========================
