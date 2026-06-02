@@ -370,15 +370,15 @@ def login_usuario():
 
     st.title("🔐 Login do Sistema")
 
-    usuario = st.text_input("Usuário")
+    usuario = st.text_input("usuarios")
     senha = st.text_input("Senha", type="password")
 
     if st.button("Entrar"):
 
         cursor.execute("""
-            SELECT usuario, senha, nivel
+            SELECT usuarios, senha, nivel
             FROM usuarios
-            WHERE usuario = ? AND senha = ?
+            WHERE usuarios = ? AND senha = ?
         """, (usuario, senha))
 
         result = cursor.fetchone()
