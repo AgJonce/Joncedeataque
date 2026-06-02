@@ -406,20 +406,20 @@ def receitas():
                 df["selecao"] == receita_selecionada
             ].iloc[0]
 
-            st.session_state["receita_id"] = int(
+        st.session_state["receita_id"] = int(
                 dados["id"]
             )
 
-            st.session_state["descricao"] = dados["descricao"]
-            st.session_state["categoria"] = dados["categoria"]
-            st.session_state["conta"] = dados["conta"]
-            st.session_state["forma_recebimento"] = dados["forma_recebimento"]
-            st.session_state["valor"] = float(dados["valor"])
-            st.session_state["observacao"] = dados["observacao"]
+        st.session_state["descricao"] = dados["descricao"]
+        st.session_state["categoria"] = dados["categoria"]
+        st.session_state["conta"] = dados["conta"]
+        st.session_state["forma_recebimento"] = dados["forma_recebimento"]
+        st.session_state["valor"] = float(dados["valor"])
+        st.session_state["observacao"] = dados["observacao"]
 
-            st.divider()
+        st.divider()
 
-            st.subheader("📄 Receita Selecionada")
+        st.subheader("📄 Receita Selecionada")
 
             col1, col2 = st.columns(2)
 
