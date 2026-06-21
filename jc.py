@@ -480,12 +480,6 @@ def receitas():
         
         )
         
-elif acao == "alterar":else:
-
-            st.warning(
-                "Nenhuma receita encontrada."
-        )
-
 elif acao == "alterar":
 
          st.subheader("✏️ Alterar Receita")
