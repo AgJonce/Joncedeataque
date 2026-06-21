@@ -355,101 +355,101 @@ def receitas():
 
             st.rerun()
 
-elif acao == "localizar":
+    elif acao == "localizar":
 
-    st.subheader("🔍 Localizar Receita")
+        st.subheader("🔍 Localizar Receita")
 
-    filtro = st.text_input(
-        "Pesquisar Descrição"
-    )
-
-    if filtro:
-
-        df = pd.read_sql(
-            """
-            SELECT *
-            FROM receitas
-            WHERE descricao LIKE ?
-            ORDER BY data DESC
-            """,
-            conn,
-            params=(f"%{filtro}%",)
+        filtro = st.text_input(
+            "Pesquisar Descrição"
         )
 
-    else:
+        if filtro:
 
-        df = pd.read_sql(
-            """
-            SELECT *
-            FROM receitas
-            ORDER BY data DESC
-            """,
-            conn
-        )
+            df = pd.read_sql(
+                """
+                SELECT *
+                FROM receitas
+                WHERE descricao LIKE ?
+                ORDER BY data DESC
+                """,
+                conn,
+                params=(f"%{filtro}%",)
+                )
 
-    if not df.empty:
+        else:
 
-        df["selecao"] = (
-            df["descricao"]
-            + " | "
-            + df["data"]
-            + " | R$ "
-            + df["valor"].round(2).astype(str)
-        )
+            df = pd.read_sql(
+                """
+                SELECT *
+                FROM receitas
+                ORDER BY data DESC
+                """,
+                conn
+            )
+
+        if not df.empty:
+
+            df["selecao"] = (
+                df["descricao"]
+                + " | "
+                + df["data"]
+                + " | R$ "
+                + df["valor"].round(2).astype(str)
+            )
 
         receita_selecionada = st.selectbox(
             "Selecione uma Receita",
             df["selecao"]
         )
 
-        dados = df[
-            df["selecao"] == receita_selecionada
-        ].iloc[0]
+            dados = df[
+                df["selecao"] == receita_selecionada
+            ].iloc[0]
 
-        st.session_state["receita_id"] = int(
+            st.session_state["receita_id"] = int(
             dados["id"]
-        )
-
-        st.session_state["descricao"] = dados["descricao"]
-        st.session_state["categoria"] = dados["categoria"]
-        st.session_state["conta"] = dados["conta"]
-        st.session_state["forma_recebimento"] = dados["forma_recebimento"]
-        st.session_state["valor"] = float(dados["valor"])
-        st.session_state["observacao"] = dados["observacao"]
-
-        st.divider()
-
-        st.subheader("📄 Receita Selecionada")
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-
-            st.text_input(
-                "Descrição",
-                value=dados["descricao"],
-                disabled=True
             )
 
-            st.text_input(
-                "Categoria",
-                value=dados["categoria"],
-                disabled=True
-            )
+            st.session_state["descricao"] = dados["descricao"]
+            st.session_state["categoria"] = dados["categoria"]
+            st.session_state["conta"] = dados["conta"]
+            st.session_state["forma_recebimento"] = dados["forma_recebimento"]
+            st.session_state["valor"] = float(dados["valor"])
+            st.session_state["observacao"] = dados["observacao"]
 
-            st.text_input(
-                "Conta",
-                value=str(dados["conta"]),
-                disabled=True
-            )
+            st.divider()
 
-        with col2:
+            st.subheader("📄 Receita Selecionada")
 
-            st.text_input(
-                "Data",
-                value=str(dados["data"]),
-                disabled=True
-            )
+            col1, col2 = st.columns(2)
+
+            with col1:
+
+                st.text_input(
+                    "Descrição",
+                    value=dados["descricao"],
+                    disabled=True
+                )
+    
+                st.text_input(
+                    "Categoria",
+                    value=dados["categoria"],
+                    disabled=True
+                )
+
+                st.text_input(
+                    "Conta",
+                    value=str(dados["conta"]),
+                    disabled=True
+                )
+
+            with col2:
+
+                st.text_input(
+                    "Data",
+                    value=str(dados["data"]),
+                    disabled=True
+                )
 
             st.text_input(
                 "Forma Recebimento",
