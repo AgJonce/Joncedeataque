@@ -478,11 +478,11 @@ def receitas():
         st.warning(
             "Nenhuma receita encontrada."
         )
-elif acao == "alterar":
+    elif acao == "alterar":
 
-     st.subheader("✏️ Alterar Receita")
+         st.subheader("✏️ Alterar Receita")
 
-     st.info(
+         st.info(
          "Tela de alteração será criada após a localização."
      )
 
@@ -490,13 +490,13 @@ elif acao == "alterar":
     # EXCLUIR
     # ==========================
 
- elif acao == "excluir":
+     elif acao == "excluir":
 
-    st.subheader("🗑️ Excluir Receita")
+        st.subheader("🗑️ Excluir Receita")
 
-     st.info(
+         st.info(
          "Tela de exclusão será criada no próximo passo."
-      )
+          )
 def login_usuario():
 
     st.title("🔐 Login do Sistema")
