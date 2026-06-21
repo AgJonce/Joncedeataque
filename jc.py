@@ -473,10 +473,10 @@ def receitas():
             f"Receita ID {dados['id']} carregada para alteração ou exclusão."
         )
 
-    else:
+        else:
 
-        st.warning(
-            "Nenhuma receita encontrada."
+            st.warning(
+                "Nenhuma receita encontrada."
         )
     elif acao == "alterar":
 
