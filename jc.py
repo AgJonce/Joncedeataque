@@ -403,84 +403,81 @@ def receitas():
         )
 
         dados = df[
-             df["selecao"] == receita_selecionada
-            ].iloc[0]
+            df["selecao"] == receita_selecionada
+        ].iloc[0]
 
-            st.session_state["receita_id"] = int(
-                dados["id"]
-                )
+        st.session_state["receita_id"] = int(
+            dados["id"]
+        )
 
-                st.session_state["descricao"] = dados["descricao"]
-                st.session_state["categoria"] = dados["categoria"]
-                st.session_state["conta"] = dados["conta"]
-                st.session_state["forma_recebimento"] = dados["forma_recebimento"]
-                st.session_state["valor"] = float(dados["valor"])
-                st.session_state["observacao"] = dados["observacao"]
+        st.session_state["descricao"] = dados["descricao"]
+        st.session_state["categoria"] = dados["categoria"]
+        st.session_state["conta"] = dados["conta"]
+        st.session_state["forma_recebimento"] = dados["forma_recebimento"]
+        st.session_state["valor"] = float(dados["valor"])
+        st.session_state["observacao"] = dados["observacao"]
 
-                st.divider()
+        st.divider()
 
-                st.subheader("📄 Receita Selecionada")
+        st.subheader("📄 Receita Selecionada")
 
-                col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
 
-                with col1:
+        with col1:
 
-                    st.text_input(
-                        "Descrição",
-                        value=dados["descricao"],
-                        disabled=True
-                    )
-    
-                    st.text_input(
-                        "Categoria",
-                        value=dados["categoria"],
-                        disabled=True
-                    )
-
-                    st.text_input(
-                        "Conta",
-                        value=str(dados["conta"]),
-                        disabled=True
-                    )
-
-                with col2:
-
-                    st.text_input(
-                        "Data",
-                        value=str(dados["data"]),
-                        disabled=True
-                    )
-
-                st.text_input(
-                    "Forma Recebimento",
-                    value=str(dados["forma_recebimento"]),
-                    disabled=True
-                )
-
-                st.text_input(
-                    "Valor",
-                    value=f"R$ {dados['valor']:,.2f}",
-                    disabled=True
-                )
-
-            st.text_area(
-                "Observação",
-                value=str(dados["observacao"]),
+            st.text_input(
+                "Descrição",
+                value=dados["descricao"],
                 disabled=True
             )
 
-            st.success(
-                f"Receita ID {dados['id']} carregada para alteração ou exclusão."
+            st.text_input(
+                "Categoria",
+                value=dados["categoria"],
+                disabled=True
             )
 
-        else:
-
-            st.warning(
-                "Nenhuma receita encontrada."
+            st.text_input(
+                "Conta",
+                value=str(dados["conta"]),
+                disabled=True
             )
-    # ALTERAR
-    # ==========================
 
+        with col2:
+
+            st.text_input(
+                "Data",
+                value=str(dados["data"]),
+                disabled=True
+            )
+
+            st.text_input(
+                "Forma Recebimento",
+                value=str(dados["forma_recebimento"]),
+                disabled=True
+            )
+
+            st.text_input(
+                "Valor",
+                value=f"R$ {dados['valor']:,.2f}",
+                disabled=True
+            )
+
+        st.text_area(
+            "Observação",
+            value=str(dados["observacao"]),
+            disabled=True
+        )
+
+        st.success(
+            f"Receita ID {dados['id']} carregada para alteração ou exclusão."
+        )
+
+    else:
+
+        st.warning(
+            "Nenhuma receita encontrada."
+        )
 elif acao == "alterar":
 
      st.subheader("✏️ Alterar Receita")
