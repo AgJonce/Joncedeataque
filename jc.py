@@ -403,10 +403,10 @@ def receitas():
         )
 
         dados = df[
-                df["selecao"] == receita_selecionada
-                ].iloc[0]
+             df["selecao"] == receita_selecionada
+            ].iloc[0]
 
-                st.session_state["receita_id"] = int(
+            st.session_state["receita_id"] = int(
                 dados["id"]
                 )
 
